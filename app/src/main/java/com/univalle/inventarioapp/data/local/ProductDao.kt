@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
+
     @Query("SELECT * FROM products ORDER BY name ASC")
     fun observeAll(): Flow<List<ProductEntity>>
 
@@ -20,4 +21,8 @@ interface ProductDao {
 
     @Query("DELETE FROM products WHERE code = :code")
     suspend fun deleteByCode(code: String)
+
+    // Suma simple del precio (sin quantity por ahora)
+    @Query("SELECT SUM(priceCents) FROM products")
+    suspend fun getTotalInventoryValue(): Long?
 }

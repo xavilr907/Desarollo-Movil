@@ -1,14 +1,37 @@
 package com.univalle.inventarioapp.data.local
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.univalle.inventarioapp.data.model.ProductEntity   // ← IMPORT CORRECTO
+import com.univalle.inventarioapp.data.model.ProductEntity
 
 @Database(
     entities = [ProductEntity::class],
-    version = 4, // Incrementada porque la estructura (schema) cambió
+    version = 4,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun productDao(): ProductDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "inventory_db"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+
+                INSTANCE = instance
+                instance
+            }
+        }
+    }
 }
