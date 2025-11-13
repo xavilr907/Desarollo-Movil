@@ -1,15 +1,32 @@
+# === Android Studio / IntelliJ ===
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local configuration
 local.properties
+
+# Logs
+*.log
+
+# Generated
+captures/
+output.json
+
+# Native build
+externalNativeBuild/
+.cxx/
+
+# Keystore (NO SUBIR)
+*.jks
+*.keystore
+
+# Firebase key
+google-services.json
+
+# Misc
+.DS_Store
