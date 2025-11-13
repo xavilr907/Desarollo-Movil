@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Clase 2</string>
+    <string name="desarrollo_web_univalle">Desarrollo Web Univalle\n</string>
+    <string name="nombre">Ingresa tu nombre\n</string>
+    <string name="title_inventory">Inventario</string>
+
+</resources>
