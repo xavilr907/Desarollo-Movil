@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import com.univalle.inventarioapp.R
 import com.univalle.inventarioapp.data.local.AppDatabase
@@ -18,11 +19,17 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var vm: HomeViewModel
-    // pass click lambda to adapter
-    private val adapter by lazy { ProductAdapter { code ->
-        val bundle = Bundle().apply { putString("productCode", code) }
-        findNavController().navigate(R.id.action_homeFragment_to_productDetailFragment, bundle)
-    } }
+
+    // click en item -> detalle
+    private val adapter by lazy {
+        ProductAdapter { code ->
+            val bundle = Bundle().apply { putString("productCode", code) }
+            findNavController().navigate(
+                R.id.action_homeFragment_to_productDetailFragment,
+                bundle
+            )
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,8 +43,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // RecyclerView
+        binding.rvProducts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvProducts.adapter = adapter
-        binding.rvProducts.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+
+        // Mostrar progress mientras cargan los productos
+        binding.progressHome.visibility = View.VISIBLE
 
         // Room DB
         val db = Room.databaseBuilder(
@@ -49,18 +60,19 @@ class HomeFragment : Fragment() {
         val factory = HomeViewModelFactory(db.productDao())
         vm = ViewModelProvider(this, factory)[HomeViewModel::class.java]
 
-        // Observa los datos y actualiza la lista
+        // Lista de productos
         vm.products.observe(viewLifecycleOwner) { list ->
+            binding.progressHome.visibility = View.GONE
             adapter.submitList(list)
         }
 
-        // Observa el total formateado y lo muestra en el widget
+        // Total inventario
         vm.totalFormatted.observe(viewLifecycleOwner) { total ->
             binding.tvTotalInventory.text = "Total inventario: $total"
         }
 
-        // Navegar a AddProductFragment
-        binding.btnAdd.setOnClickListener {
+        // FAB para agregar producto (antes era btnAdd)
+        binding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_addProductFragment)
         }
     }
