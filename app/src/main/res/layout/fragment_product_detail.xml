@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/overlay_black_cc">
+    android:background="@color/overlay_black_cc"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/toolbar_gray"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:titleTextColor="@color/white"
         app:navigationIconTint="@color/white"
-        app:title="@string/title_product_detail"
-        />
-
+        app:title="@string/title_product_detail" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        android:layout_marginTop="64dp">
+        android:layout_marginTop="56dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,14 +143,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="28dp"
-                android:backgroundTint="@color/orange_primary"
-                app:backgroundTint="@color/orange_primary"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="48dp"
+                android:background="@drawable/rounded_button"
                 android:text="@string/btn_delete"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:layout_marginStart="48dp"
-                android:layout_marginEnd="48dp"
-                android:background="@drawable/rounded_button" />
+                app:backgroundTint="@color/orange_primary" />
 
         </LinearLayout>
 

@@ -25,13 +25,14 @@ class EditProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // ViewBinding del layout activity_edit_product.xml
         binding = ActivityEditProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Toolbar
+        // Toolbar con flecha atrás
         setSupportActionBar(binding.toolbarEdit)
-        binding.toolbarEdit.setNavigationOnClickListener { finish() }
+        binding.toolbarEdit.setNavigationOnClickListener {
+            finish()   // vuelve a la pantalla anterior
+        }
 
         // Código recibido desde ProductDetailFragment
         originalCode = intent.getStringExtra("EXTRA_CODE") ?: run {
@@ -43,7 +44,7 @@ class EditProductActivity : AppCompatActivity() {
         // Instancia Room
         db = AppDatabase.getInstance(applicationContext)
 
-        // Cargar datos del producto
+        // Cargar datos del producto para editar
         loadProduct()
 
         // Botón Editar
@@ -72,21 +73,21 @@ class EditProductActivity : AppCompatActivity() {
                 currentProductId = product.id
 
                 // Rellenar campos
-                binding.editTextId.setText(product.code) // usamos el code como ID visible
-                binding.editTextNombre.setText(product.name)
+                binding.etId.setText(product.code)          // ID visible (code)
+                binding.etName.setText(product.name)
 
                 val pesos = product.priceCents / 100.0
-                binding.editTextPrecio.setText(pesos.toString())
+                binding.etPrice.setText(pesos.toString())
 
-                binding.editTextCantidad.setText(product.quantity.toString())
+                binding.etQty.setText(product.quantity.toString())
             }
         }
     }
 
     private fun saveChanges() {
-        val nombre = binding.editTextNombre.text.toString().trim()
-        val precioTxt = binding.editTextPrecio.text.toString().trim()
-        val cantidadTxt = binding.editTextCantidad.text.toString().trim()
+        val nombre = binding.etName.text.toString().trim()
+        val precioTxt = binding.etPrice.text.toString().trim()
+        val cantidadTxt = binding.etQty.text.toString().trim()
 
         if (nombre.isEmpty() || precioTxt.isEmpty() || cantidadTxt.isEmpty()) {
             Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show()
@@ -106,8 +107,8 @@ class EditProductActivity : AppCompatActivity() {
         val priceCents = (precioDouble * 100).roundToLong()
 
         val updated = ProductEntity(
-            id = currentProductId,     // mantenemos el id de Firestore
-            code = originalCode,       // PK no se cambia
+            id = currentProductId,   // mantenemos id de Firestore
+            code = originalCode,     // PK no se cambia
             name = nombre,
             priceCents = priceCents,
             quantity = cantidad

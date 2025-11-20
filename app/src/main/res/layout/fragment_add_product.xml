@@ -4,82 +4,136 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#CC000000"
+    android:padding="16dp"
+    android:fitsSystemWindows="true">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilCode"
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAddProduct"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Código (4 dígitos)"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#424242"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_white"
+        app:title="@string/title_agregar_producto"
+        app:titleTextColor="@android:color/white" />
+
+    <!-- CÓDIGO -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilCode"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_codigo_producto"
+        android:textColorHint="@android:color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/toolbarAddProduct"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:maxLength="4"/>
+            android:maxLength="4"
+            android:textColor="@android:color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- NOMBRE -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Nombre"
+        android:hint="@string/hint_nombre_articulo"
+        android:textColorHint="@android:color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/tilCode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="40"/>
+            android:maxLength="40"
+            android:textColor="@android:color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- PRECIO -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilPrice"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Precio (centavos)"
+        android:hint="@string/hint_precio"
+        android:textColorHint="@android:color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/tilName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:maxLength="20"/>
+            android:maxLength="20"
+            android:textColor="@android:color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- CANTIDAD -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilQty"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Cantidad"
+        android:hint="@string/hint_cantidad"
+        android:textColorHint="@android:color/white"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@android:color/white"
+        app:hintTextColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/tilPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:maxLength="4"/>
+            android:maxLength="4"
+            android:textColor="@android:color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- BOTÓN GUARDAR -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSave"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Guardar"
+        android:text="@string/guardar"
         android:enabled="false"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:backgroundTint="#FF6D00"
+        app:cornerRadius="24dp"
         app:layout_constraintTop_toBottomOf="@id/tilQty"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

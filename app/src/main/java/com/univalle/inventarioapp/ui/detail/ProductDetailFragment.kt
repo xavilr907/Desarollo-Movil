@@ -1,17 +1,17 @@
 package com.univalle.inventarioapp.ui.detail
 
-import android.app.AlertDialog
-import android.content.Intent                     // 👈 NUEVO
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.univalle.inventarioapp.EditProductActivity // 👈 NUEVO
+import com.univalle.inventarioapp.EditProductActivity
+import com.univalle.inventarioapp.R
 import com.univalle.inventarioapp.data.local.AppDatabase
 import com.univalle.inventarioapp.databinding.FragmentProductDetailBinding
 
@@ -34,31 +34,28 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Toolbar back
-        binding.toolbarDetail.setNavigationIcon(com.univalle.inventarioapp.R.drawable.ic_arrow_back_white)
+        // ---------- Toolbar: icono y acción "atrás" ----------
+        binding.toolbarDetail.navigationIcon =
+            ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back_white)
+
         binding.toolbarDetail.setNavigationOnClickListener {
-            // Prefer explicit action back to home if present
-            try {
-                findNavController().navigate(com.univalle.inventarioapp.R.id.action_productDetail_to_home)
-            } catch (e: Exception) {
-                findNavController().navigateUp()
-            }
+            // Simplemente volver al fragment anterior (Home en tu flujo)
+            findNavController().popBackStack()
         }
 
-        // DB and ViewModel
+        // ---------- DB y ViewModel ----------
         val db = AppDatabase.getInstance(requireContext())
 
-
         val productCode = arguments?.getString("productCode") ?: run {
-            // no code -> go back
-            findNavController().navigateUp()
+            // si no hay código, salimos
+            findNavController().popBackStack()
             return
         }
 
         val factory = ProductDetailViewModelFactory(db.productDao(), productCode)
         vm = ViewModelProvider(this, factory)[ProductDetailViewModel::class.java]
 
-        // Observers
+        // ---------- Observers ----------
         vm.product.observe(viewLifecycleOwner) { p ->
             if (p == null) return@observe
             binding.tvProductName.text = p.name
@@ -72,12 +69,8 @@ class ProductDetailFragment : Fragment() {
 
         vm.navigateBack.observe(viewLifecycleOwner) { goBack ->
             if (goBack == true) {
-                // After delete, navigate explicitly to Home (HU 3.0)
-                try {
-                    findNavController().navigate(com.univalle.inventarioapp.R.id.action_productDetail_to_home)
-                } catch (e: Exception) {
-                    findNavController().navigateUp()
-                }
+                // Después de eliminar, simplemente volvemos atrás
+                findNavController().popBackStack()
             }
         }
 
@@ -91,7 +84,7 @@ class ProductDetailFragment : Fragment() {
             }
         }
 
-        // Delete button
+        // ---------- Botón Eliminar ----------
         binding.btnDelete.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Confirmar eliminación")
@@ -99,17 +92,16 @@ class ProductDetailFragment : Fragment() {
                 .setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
                 }
-                .setPositiveButton("Si") { _, _ ->
+                .setPositiveButton("Sí") { _, _ ->
                     vm.deleteProduct()
                 }
                 .show()
         }
 
-        // 🆕 FAB edit -> abrir EditProductActivity
+        // ---------- FAB Editar -> abre EditProductActivity ----------
         binding.fabEdit.setOnClickListener {
             val context = requireContext()
             val intent = Intent(context, EditProductActivity::class.java).apply {
-                // 👇 Asegúrate de usar la misma clave que espera tu EditProductActivity
                 putExtra("EXTRA_CODE", productCode)
             }
             startActivity(intent)
@@ -118,7 +110,8 @@ class ProductDetailFragment : Fragment() {
 
     private fun formatCurrency(cents: Long): String {
         val units = cents / 100.0
-        return java.text.NumberFormat.getCurrencyInstance(java.util.Locale.getDefault())
+        return java.text.NumberFormat
+            .getCurrencyInstance(java.util.Locale.getDefault())
             .format(units)
     }
 

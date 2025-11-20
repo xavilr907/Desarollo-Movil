@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">InventarioApp</string>
+
+    <!-- PRODUCT DETAIL -->
     <string name="title_product_detail">Detalle del producto</string>
     <string name="label_product_name">Nombre producto</string>
     <string name="label_price_unit">Precio Unidad :</string>
@@ -9,4 +11,21 @@
     <string name="sample_quantity">0</string>
     <string name="btn_delete">Eliminar</string>
     <string name="desc_edit_fab">Editar producto</string>
+    <string name="item_code">Código: </string>
+    <string name="item_price">Precio: </string>
+    <string name="item_qty">Cantidad: </string>
+
+
+    <!-- ADD PRODUCT -->
+    <string name="title_agregar_producto">Agregar producto</string>
+    <string name="hint_codigo_producto">Código producto</string>
+    <string name="hint_nombre_articulo">Nombre artículo</string>
+    <string name="hint_precio">Precio</string>
+    <string name="hint_cantidad">Cantidad</string>
+    <string name="guardar">Guardar</string>
+
+    <!-- HOME -->
+    <string name="title_home_inventario">Inventario</string>
+    <string name="total_inventory_initial">Total inventario: $ 0,00</string>
+    <string name="desc_add_product">Agregar producto</string>
 </resources>
